@@ -5,12 +5,8 @@ import session from "express-session";
 import { Request, Response, Router } from "express";
 import { userRouter } from "./routers/user-router";
 import { connectionPool } from "./util/connection-util";
-import {
-  findByUsernameAndPassword,
-  findByName,
-  findUserByID
-} from "./dao/user-dao";
-import { addUser } from "./dao/user-dao";
+import { findByName, findUserByID } from "./dao/user-dao";
+import { addUser, findByUsernameAndPassword } from "./dao/user-dao";
 import { User } from "./models/user";
 import { findReimbByUser } from "./dao/reimb-dao";
 let user = new User(
@@ -23,11 +19,11 @@ let user = new User(
   1
 );
 
-let reimbs = findReimbByUser(user);
-console.log(user.id);
-setTimeout(() => {
-  console.log(reimbs);
-}, 500);
+// let user1 = findByUsernameAndPassword("zdscott", "pass");
+// console.log(user.id);
+// setTimeout(() => {
+//   console.log(user1);
+// }, 500);
 const app = express();
 
 const port = process.env.PORT || 3000;
@@ -57,9 +53,20 @@ app.use((req: Request, resp: Response, next) => {
   console.log(`path request: ${req.path} ; Method: ${req.method}`);
   next();
 });
+// use the body parser to convert request json
 app.use(bodyParser.json());
+
+// allows cors headers
+app.use((req, resp, next) => {
+  resp.header("Access-Control-Allow-Origin", "http://localhost:9001");
+  resp.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  resp.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
 //sets path for static content such as css and
 app.use("/user", userRouter);
 
 app.use(express.static(path.join(__dirname, "public")));
-console.log(reimbs);

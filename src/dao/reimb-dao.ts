@@ -64,7 +64,7 @@ export async function findReimbByUser(user: User): Promise<Reimb[]> {
 export async function addReimb(reimb: SqlReimb): Promise<boolean> {
   const client = await connectionPool.connect();
   try {
-    client.query(
+    await client.query(
       `INSERT INTO ers.ers_reimbursement
             (reimb_amount,reimb_submitted,reimb_resolved,reimb_description,
                 reimb_author,reimb_resolver,reimb_status_id,reimb_type_id)
@@ -78,6 +78,31 @@ export async function addReimb(reimb: SqlReimb): Promise<boolean> {
     return true;
   } finally {
     client.release();
+  }
+  return false;
+}
+
+export async function changeReimb(
+  accessor: User,
+  reimb: SqlReimb
+): Promise<boolean> {
+  const client = await connectionPool.connect();
+  try {
+    await client.query(
+      `UPDATE ers.ers_reimbursement
+      SET reimb_amount= ${reimb.amount}, reimb_submitted= '${
+        reimb.resolved
+      }', rreimb_resolved = '${reimb.resolved}',
+      eimb_description= '${reimb.description}', reimb_author= ${
+        reimb.author
+      }, reimb_resolver= ${reimb.resolver}, 
+      reimb_status_id= ${reimb.statusId}, reimb_type_id= ${reimb.typeId}
+       WHERE reimb_id = ${reimb.id} `
+    );
+    return true;
+  } catch (e) {
+    console.log(e);
+  } finally {
   }
   return false;
 }

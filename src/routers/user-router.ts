@@ -17,15 +17,19 @@ userRouter.get("/:id", async (req, resp) => {
     resp.sendStatus(500);
   }
 });
-userRouter.get("/", async (req, resp) => {
+
+userRouter.post("/login", async (req, resp) => {
   const username = req.body.username;
   const password = req.body.password;
+
+  console.log(req.body);
   try {
-    const users = userDao.findByUsernameAndPassword(username, password);
-    if (users[0]) {
-      resp.json(users);
+    const user = await userDao.findByUsernameAndPassword(username, password);
+    console.log(user);
+    if (user) {
+      resp.json(user);
     } else {
-      resp.sendStatus(400);
+      resp.sendStatus(404);
     }
   } catch (err) {
     resp.sendStatus(500);
