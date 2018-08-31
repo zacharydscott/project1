@@ -53,3 +53,18 @@ BEFORE INSERT ON ers.ers_reimbursement
 FOR EACH ROW
 EXECUTE PROCEDURE insert_sub_stamp();
 
+CREATE OR REPLACE FUNCTION insert_res_stamp()
+RETURNS trigger as $$
+BEGIN
+IF (OLD.reimb_status_id <> NEW.reimb_status_id) THEN
+ NEW.reimb_resolved = CURRENT_TIMESTAMP;
+END IF;
+RETURN NEW;
+END $$ LANGUAGE 'plpgsql';
+
+
+CREATE TRIGGER resolveTime
+BEFORE UPDATE ON ers.ers_reimbursement
+FOR EACH ROW
+EXECUTE PROCEDURE insert_res_stamp();
+
