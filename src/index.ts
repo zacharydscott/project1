@@ -8,7 +8,8 @@ import { connectionPool } from "./util/connection-util";
 import { findByName, findUserByID } from "./dao/user-dao";
 import { addUser, findByUsernameAndPassword } from "./dao/user-dao";
 import { User } from "./models/user";
-import { findReimbByUser } from "./dao/reimb-dao";
+import { SqlReimb } from "./dto/sql-reimb";
+import { addReimb } from "./dao/reimb-dao";
 let user = new User(
   2,
   "aaa",
@@ -18,6 +19,10 @@ let user = new User(
   "aaadario@gmail.com",
   1
 );
+let date = new Date();
+let sqlReimb = new SqlReimb(6, 100, date, date, "inserting reimb", 2, 2, 0, 0);
+console.log(sqlReimb);
+addReimb(sqlReimb);
 
 // let user1 = findByUsernameAndPassword("zdscott", "pass");
 // console.log(user.id);

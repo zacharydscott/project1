@@ -40,4 +40,16 @@ CREATE TABLE ers.ers_reimbursement (reimb_id SERIAL PRIMARY KEY,
 	CONSTRAINT reimb_type_id  FOREIGN KEY (reimb_type_id) REFERENCES ers.ers_reimbursement_type(ers_reimb_type_id)										
  );
 
+CREATE OR REPLACE FUNCTION insert_sub_stamp()
+RETURNS trigger as $$
+BEGIN
+ NEW.reimb_submitted = CURRENT_TIMESTAMP;
+RETURN NEW;
+END $$ LANGUAGE 'plpgsql';
+
+
+CREATE TRIGGER submissionTime
+BEFORE INSERT ON ers.ers_reimbursement
+FOR EACH ROW
+EXECUTE PROCEDURE insert_sub_stamp();
 

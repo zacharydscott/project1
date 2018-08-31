@@ -4,6 +4,9 @@ import { Reimb } from "../models/reimb";
 import { userConverter } from "../util/user-converter";
 import { reimbConverter } from "../util/reimb-converter";
 import { SqlReimb } from "../dto/sql-reimb";
+import * as pg from "pg";
+
+pg.types.setTypeParser(1114, str => str);
 
 export async function findAllReimb(accessor: User): Promise<Reimb[]> {
   if (accessor.roleID !== 1) {
@@ -66,16 +69,16 @@ export async function addReimb(reimb: SqlReimb): Promise<boolean> {
   try {
     await client.query(
       `INSERT INTO ers.ers_reimbursement
-            (reimb_amount,reimb_submitted,reimb_resolved,reimb_description,
+            (reimb_amount,reimb_description,
                 reimb_author,reimb_resolver,reimb_status_id,reimb_type_id)
-                VALUES (${reimb.amount},'${reimb.submitted}','${
-        reimb.resolved
-      }',
+                VALUES (${reimb.amount},
                     '${reimb.description}',${reimb.author},${reimb.resolver},${
         reimb.statusId
       },${reimb.typeId});`
     );
     return true;
+  } catch (err) {
+    console.log(err);
   } finally {
     client.release();
   }
