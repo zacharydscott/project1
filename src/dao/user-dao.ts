@@ -12,6 +12,8 @@ export async function findAllUsers(): Promise<User[]> {
       users.push(user);
     });
     return users;
+  } catch (err) {
+    return null;
   } finally {
     client.release();
   }
@@ -33,6 +35,8 @@ export async function findUserByID(id: number): Promise<User> {
       return user;
     }
     return null;
+  } catch (err) {
+    return null;
   } finally {
     client.release();
   }
@@ -52,6 +56,8 @@ export async function findByUsernameAndPassword(
       const user = userConverter(respBody.rows[0]);
       return user;
     }
+    return null;
+  } catch (err) {
     return null;
   } finally {
     client.release();
@@ -78,6 +84,8 @@ export async function findByName(
       console.log(users);
       return users;
     }
+  } catch (err) {
+    return null;
   } finally {
     client.release();
   }
@@ -92,8 +100,9 @@ export async function addUser(user: User): Promise<boolean> {
             '${user.lastName}','${user.email}','${user.roleID}');`
     );
     return true;
+  } catch (err) {
+    return false;
   } finally {
     client.release();
   }
-  return false;
 }

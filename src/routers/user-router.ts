@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import express from "express";
 import * as userDao from "../dao/user-dao";
+import { User } from "../models/User";
 export const userRouter = express.Router();
 
 userRouter.get("/:id", async (req, resp) => {
@@ -33,5 +34,36 @@ userRouter.post("/login", async (req, resp) => {
     }
   } catch (err) {
     resp.sendStatus(500);
+  }
+});
+
+userRouter.post("/register", async (req, resp) => {
+  let newUser;
+  console.log("newUser");
+  try {
+    newUser = new User(
+      req.body.id,
+      req.body.username,
+      req.body.password,
+      req.body.firstName,
+      req.body.lastName,
+      req.body.email,
+      req.body.roleID
+    );
+  } catch (err) {
+    resp.sendStatus(400);
+  } finally {
+  }
+  try {
+    console.log(newUser);
+    const added = await userDao.addUser(newUser);
+    console.log(added);
+    if (added) {
+      resp.sendStatus(201);
+    } else {
+      resp.sendStatus(403);
+    }
+  } catch (err) {
+    resp.sendStatus(400);
   }
 });

@@ -8,7 +8,7 @@ import * as pg from "pg";
 
 pg.types.setTypeParser(1114, str => str);
 
-export async function findAllReimb(accessor: User): Promise<Reimb[]> {
+export async function findAllReimb(accessor: User) {
   if (accessor.roleID !== 1) {
     console.log("access denied");
     return null;

@@ -16,7 +16,7 @@ CREATE TABLE ers.ers_reimbursement_status(
 
 CREATE TABLE ers.ers_users (
 	ers_user_id SERIAL PRIMARY KEY,
-	ers_username VARCHAR(50),
+	ers_username VARCHAR(50) UNIQUE,
 	ers_password VARCHAR(50),
 	user_first_name VARCHAR(100),
 	user_last_name VARCHAR(100),

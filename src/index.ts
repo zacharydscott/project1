@@ -16,45 +16,7 @@ import {
   findReimbByID,
   changeReimb
 } from "./dao/reimb-dao";
-let user = new User(
-  3,
-  "bbb",
-  "pass",
-  "Aaron",
-  "Adario",
-  "aaadario@gmail.com",
-  1
-);
-console.log(user);
-let reimb = findReimbByID(user, 12)
-  .then(resp => {
-    console.log(resp);
-    return resp;
-  })
-  .then(resp => {
-    resp.statusId = 1;
-    let sqlReimb = new SqlReimb(
-      resp.id,
-      resp.amount,
-      null,
-      null,
-      resp.description,
-      resp.author,
-      resp.resolver,
-      resp.statusId,
-      resp.typeId
-    );
-    console.log(sqlReimb);
-    changeReimb(user, sqlReimb);
-  });
 
-let date = new Date();
-
-// let user1 = findByUsernameAndPassword("zdscott", "pass");
-// console.log(user.id);
-// setTimeout(() => {
-//   console.log(user1);
-// }, 500);
 const app = express();
 
 const port = process.env.PORT || 3000;
