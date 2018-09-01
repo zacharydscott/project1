@@ -9,20 +9,46 @@ import { findByName, findUserByID } from "./dao/user-dao";
 import { addUser, findByUsernameAndPassword } from "./dao/user-dao";
 import { User } from "./models/user";
 import { SqlReimb } from "./dto/sql-reimb";
-import { addReimb } from "./dao/reimb-dao";
+import {
+  addReimb,
+  findAllReimb,
+  findReimbsByUser,
+  findReimbByID,
+  changeReimb
+} from "./dao/reimb-dao";
 let user = new User(
-  2,
-  "aaa",
+  3,
+  "bbb",
   "pass",
   "Aaron",
   "Adario",
   "aaadario@gmail.com",
   1
 );
+console.log(user);
+let reimb = findReimbByID(user, 12)
+  .then(resp => {
+    console.log(resp);
+    return resp;
+  })
+  .then(resp => {
+    resp.statusId = 1;
+    let sqlReimb = new SqlReimb(
+      resp.id,
+      resp.amount,
+      null,
+      null,
+      resp.description,
+      resp.author,
+      resp.resolver,
+      resp.statusId,
+      resp.typeId
+    );
+    console.log(sqlReimb);
+    changeReimb(user, sqlReimb);
+  });
+
 let date = new Date();
-let sqlReimb = new SqlReimb(6, 100, date, date, "inserting reimb", 2, 2, 0, 0);
-console.log(sqlReimb);
-addReimb(sqlReimb);
 
 // let user1 = findByUsernameAndPassword("zdscott", "pass");
 // console.log(user.id);

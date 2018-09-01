@@ -43,6 +43,7 @@ export async function findReimbByID(
     );
     let reimb;
     resp.rows[0] && (reimb = reimbConverter(resp.rows[0]));
+    console.log(reimb);
     return reimb;
   } finally {
     client.release();
@@ -50,16 +51,18 @@ export async function findReimbByID(
   return null;
 }
 
-export async function findReimbByUser(user: User): Promise<Reimb[]> {
+export async function findReimbsByUser(user: User): Promise<Reimb[]> {
   const client = await connectionPool.connect();
   try {
     const resp = await client.query(
       `SELECT * FROM ers.ers_reimbursement
         WHERE reimb_author = '${user.id}';`
     );
-    let reimb;
-    resp.rows[0] && (reimb = reimbConverter(resp.rows[0]));
-    return reimb;
+    let reimbs = [];
+    if (resp.rows[0]) {
+      resp.rows.forEach(row => reimbs.push(row));
+    }
+    return reimbs;
   } finally {
   }
   return null;
@@ -93,10 +96,8 @@ export async function changeReimb(
   try {
     await client.query(
       `UPDATE ers.ers_reimbursement
-      SET reimb_amount= ${reimb.amount}, reimb_submitted= '${
-        reimb.resolved
-      }', rreimb_resolved = '${reimb.resolved}',
-      eimb_description= '${reimb.description}', reimb_author= ${
+      SET reimb_amount= ${reimb.amount}, 
+      reimb_description= '${reimb.description}', reimb_author= ${
         reimb.author
       }, reimb_resolver= ${reimb.resolver}, 
       reimb_status_id= ${reimb.statusId}, reimb_type_id= ${reimb.typeId}

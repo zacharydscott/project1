@@ -19,7 +19,9 @@ export class SqlReimb {
     statusId?: number,
     typeId?: number
   ) {
-    id && (this.id = id);
+    if (id !== undefined) {
+      this.id = id;
+    }
     amount && (this.amount = amount);
     submitted && (this.submitted = submitted);
     resolved && (this.resolved = resolved);
@@ -28,9 +30,13 @@ export class SqlReimb {
     resolver && (this.resolver = resolver);
     if (statusId !== undefined) {
       this.statusId = statusId;
+    } else {
+      this.statusId = 1;
     }
     if (typeId !== undefined) {
       this.typeId = typeId;
+    } else {
+      this.typeId = 1;
     }
   }
 }
