@@ -73,11 +73,11 @@ export async function addReimb(reimb: SqlReimb): Promise<boolean> {
     await client.query(
       `INSERT INTO ers.ers_reimbursement
             (reimb_amount,reimb_description,
-                reimb_author,reimb_resolver,reimb_status_id,reimb_type_id)
+                reimb_author,reimb_status_id,reimb_type_id)
                 VALUES (${reimb.amount},
-                    '${reimb.description}',${reimb.author},${reimb.resolver},${
-        reimb.statusId
-      },${reimb.typeId});`
+                    '${reimb.description}',${reimb.author},${reimb.statusId},${
+        reimb.typeId
+      });`
     );
     return true;
   } catch (err) {
@@ -88,10 +88,7 @@ export async function addReimb(reimb: SqlReimb): Promise<boolean> {
   return false;
 }
 
-export async function changeReimb(
-  resolver: number,
-  reimb: SqlReimb
-): Promise<boolean> {
+export async function changeReimb(reimb: SqlReimb): Promise<boolean> {
   const client = await connectionPool.connect();
   try {
     await client.query(
@@ -106,7 +103,6 @@ export async function changeReimb(
     return true;
   } catch (e) {
     console.log(e);
-  } finally {
   }
   return false;
 }

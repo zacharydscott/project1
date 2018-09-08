@@ -2,6 +2,7 @@ import express from "express";
 import * as path from "path";
 import * as bodyParser from "body-parser";
 import session from "express-session";
+import { reimbRouter } from "./routers/reimb-router";
 import { Request, Response, Router } from "express";
 import { userRouter } from "./routers/user-router";
 import { connectionPool } from "./util/connection-util";
@@ -61,5 +62,6 @@ app.use((req, resp, next) => {
 });
 //sets path for static content such as css and
 app.use("/user", userRouter);
+app.use("/reimb", reimbRouter);
 
 app.use(express.static(path.join(__dirname, "public")));

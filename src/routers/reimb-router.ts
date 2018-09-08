@@ -35,6 +35,7 @@ reimbRouter.get("/:id", async (req, resp) => {
 reimbRouter.post("/", async (req, resp) => {
   let newReimb;
   console.log("adding new user");
+  console.log(req.body);
   try {
     newReimb = new SqlReimb(
       null,
@@ -82,7 +83,7 @@ reimbRouter.patch("/:id", async (req, resp) => {
   }
   try {
     console.log(alteredReimb);
-    const added = await userDao.addUser(alteredReimb);
+    const added = await ReimbDao.changeReimb(alteredReimb);
     console.log(added);
     if (added) {
       resp.sendStatus(201);
