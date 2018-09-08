@@ -76,3 +76,7 @@ INSERT INTO ers.ers_user_roles
 
 INSERT INTO ers.ers_reimbursement_type
 (ers_reimb_type_id,ers_reimb_type) VALUES (1,'admin'),(2,'travel'),(3,'food'),(4,'other')
+
+INSERT INTO ers.ers_users
+(ers_username,ers_password,user_first_name,user_last_name,user_email,user_role_id)
+VALUES ('zdscott','pass','Zachaary','Scott','zscott@evil-corp.net',2),('admin','pass1','admin','guy','admin@secure.org',1);

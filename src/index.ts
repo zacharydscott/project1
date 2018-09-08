@@ -12,7 +12,7 @@ import { SqlReimb } from "./dto/sql-reimb";
 import {
   addReimb,
   findAllReimb,
-  findReimbsByUser,
+  findReimbsByUserID,
   findReimbByID,
   changeReimb
 } from "./dao/reimb-dao";
@@ -30,18 +30,18 @@ const server = app.listen(port, () => {
   );
 });
 
-const sess = {
-  secret: "No Sceret",
-  cookie: { secure: false },
-  resave: false,
-  saveUninitialized: false
-};
-if (app.get("env") === "production") {
-  app.set("trust proxy", 1);
-  sess.cookie.secure = true;
-}
+// const sess = {
+//   secret: "No Sceret",
+//   cookie: { secure: false },
+//   resave: false,
+//   saveUninitialized: false
+// };
+// if (app.get("env") === "production") {
+//   app.set("trust proxy", 1);
+//   sess.cookie.secure = true;
+// }
 
-app.use(session(sess));
+// app.use(session(sess));
 app.use((req: Request, resp: Response, next) => {
   console.log(`path request: ${req.path} ; Method: ${req.method}`);
   next();

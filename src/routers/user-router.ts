@@ -64,6 +64,6 @@ userRouter.post("/register", async (req, resp) => {
       resp.sendStatus(403);
     }
   } catch (err) {
-    resp.sendStatus(400);
+    resp.sendStatus(500);
   }
 });

@@ -8,11 +8,11 @@ import * as pg from "pg";
 
 pg.types.setTypeParser(1114, str => str);
 
-export async function findAllReimb(accessor: User) {
-  if (accessor.roleID !== 1) {
-    console.log("access denied");
-    return null;
-  }
+export async function findAllReimb() {
+  // if (accessor.roleID !== 1) {
+  //   console.log("access denied");
+  //   return null;
+  // }
   const client = await connectionPool.connect();
   try {
     const resp = await client.query(`SELECT * FROM ers.ers_reimbursement`);
@@ -51,12 +51,12 @@ export async function findReimbByID(
   return null;
 }
 
-export async function findReimbsByUser(user: User): Promise<Reimb[]> {
+export async function findReimbsByUserID(userID: number): Promise<Reimb[]> {
   const client = await connectionPool.connect();
   try {
     const resp = await client.query(
       `SELECT * FROM ers.ers_reimbursement
-        WHERE reimb_author = '${user.id}';`
+        WHERE reimb_author = '${userID}';`
     );
     let reimbs = [];
     if (resp.rows[0]) {
@@ -89,7 +89,7 @@ export async function addReimb(reimb: SqlReimb): Promise<boolean> {
 }
 
 export async function changeReimb(
-  accessor: User,
+  resolver: number,
   reimb: SqlReimb
 ): Promise<boolean> {
   const client = await connectionPool.connect();
