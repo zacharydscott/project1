@@ -6,5 +6,5 @@ export const connectionPool = new Pool({
   database: "postgres",
   password: "LightLight",
   port: 5433,
-  max: 3
+  max: 10
 });

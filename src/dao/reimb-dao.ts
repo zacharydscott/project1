@@ -64,6 +64,7 @@ export async function findReimbsByUserID(userID: number): Promise<Reimb[]> {
     }
     return reimbs;
   } finally {
+    client.release();
   }
   return null;
 }
@@ -103,6 +104,8 @@ export async function changeReimb(reimb: SqlReimb): Promise<boolean> {
     return true;
   } catch (e) {
     console.log(e);
+  } finally {
+    client.release();
   }
   return false;
 }

@@ -80,3 +80,7 @@ INSERT INTO ers.ers_reimbursement_type
 INSERT INTO ers.ers_users
 (ers_username,ers_password,user_first_name,user_last_name,user_email,user_role_id)
 VALUES ('zdscott','pass','Zachaary','Scott','zscott@evil-corp.net',2),('admin','pass1','admin','guy','admin@secure.org',1);
+
+INSERT INTO ers.ers_reimbursement
+            (reimb_amount,reimb_description,reimb_author,reimb_status_id,reimb_type_id)
+            VALUES (100,'asdf',1,1,4),(250,'qwer',1,2,3)
