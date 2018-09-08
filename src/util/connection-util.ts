@@ -5,6 +5,6 @@ export const connectionPool = new Pool({
   host: "localhost",
   database: "postgres",
   password: "LightLight",
-  port: 5433,
+  port: 5432,
   max: 3
 });

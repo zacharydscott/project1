@@ -68,3 +68,11 @@ BEFORE UPDATE ON ers.ers_reimbursement
 FOR EACH ROW
 EXECUTE PROCEDURE insert_res_stamp();
 
+INSERT INTO ers.ers_reimbursement_status
+(ers_reimb_status_id,ers_reimb_status) VALUES (1,'pending'),(2,'approved'),(3,'denied');
+
+INSERT INTO ers.ers_user_roles
+(ers_user_role_id,user_role) VALUES (1,'admin'), (2,'user');
+
+INSERT INTO ers.ers_reimbursement_type
+(ers_reimb_type_id,ers_reimb_type) VALUES (1,'admin'),(2,'travel'),(3,'food'),(4,'other')

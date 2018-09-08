@@ -51,7 +51,7 @@ app.use(bodyParser.json());
 
 // allows cors headers
 app.use((req, resp, next) => {
-  resp.header("Access-Control-Allow-Origin", "http://localhost:9001");
+  resp.header("Access-Control-Allow-Origin", "http://localhost:3001");
   resp.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
