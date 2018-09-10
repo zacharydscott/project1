@@ -7,7 +7,17 @@ import { Reimb } from "../models/reimb";
 export const reimbRouter = express.Router();
 import { SqlReimb } from "../dto/sql-reimb";
 
-reimbRouter.get("/all", async (req, resp) => {
+reimbRouter.post("/all", async (req, resp) => {
+  // if (
+  //   userDao
+  //     .findByUsernameAndPassword(req.body.username, req.body.password)
+  //     .then(resp => {
+  //       return resp.roleID !== 1;
+  //     })
+  // ) {
+  //   resp.sendStatus(401);
+  //   return;
+  // }
   console.log("grabbing all reimbursements");
   try {
     const reimbs = await ReimbDao.findAllReimb();
@@ -18,12 +28,23 @@ reimbRouter.get("/all", async (req, resp) => {
   }
 });
 
-reimbRouter.get("/:id", async (req, resp) => {
+reimbRouter.post("/:id", async (req, resp) => {
+  // if (
+  //   userDao
+  //     .findByUsernameAndPassword(req.body.username, req.body.password)
+  //     .then(response => {
+  //       return response.id !== +req.params.id;
+  //     })
+  // ) {
+  //   resp.sendStatus(401);
+  //   return;
+  // }
   console.log(`Retrieving all reimbs for user with id: ${+req.params.id} `);
   try {
     const reimbs = await ReimbDao.findReimbsByUserID(+req.params.id);
     if (reimbs[0]) {
       resp.json(reimbs);
+      console.log(`Successful retrieval, ${reimbs.length} entries found.`);
     } else {
       resp.sendStatus(404);
     }
@@ -34,7 +55,7 @@ reimbRouter.get("/:id", async (req, resp) => {
 
 reimbRouter.post("/", async (req, resp) => {
   let newReimb;
-  console.log("adding new user");
+  console.log("adding new reimb");
   console.log(req.body);
   try {
     newReimb = new SqlReimb(

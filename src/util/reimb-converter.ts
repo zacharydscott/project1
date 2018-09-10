@@ -17,7 +17,7 @@ export function reimbConverter(sqlReimbRow: any) {
     sqlReimb.id,
     sqlReimb.amount,
     sqlReimb.submitted,
-    sqlReimb.resolver,
+    sqlReimb.resolved,
     sqlReimb.description,
     sqlReimb.author,
     sqlReimb.resolver,

@@ -19,6 +19,7 @@ export async function findAllReimb() {
     const reimbs = [];
     resp.rows.forEach(sqlReimb => {
       const reimb = reimbConverter(sqlReimb);
+      console.log(reimb.resolved);
       reimbs.push(reimb);
     });
     return reimbs;
@@ -60,7 +61,7 @@ export async function findReimbsByUserID(userID: number): Promise<Reimb[]> {
     );
     let reimbs = [];
     if (resp.rows[0]) {
-      resp.rows.forEach(row => reimbs.push(row));
+      resp.rows.forEach(row => reimbs.push(reimbConverter(row)));
     }
     return reimbs;
   } finally {

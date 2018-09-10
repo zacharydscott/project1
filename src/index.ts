@@ -17,6 +17,7 @@ import {
   findReimbByID,
   changeReimb
 } from "./dao/reimb-dao";
+import expressValidator from "express-validator";
 
 const app = express();
 
@@ -31,18 +32,18 @@ const server = app.listen(port, () => {
   );
 });
 
-// const sess = {
-//   secret: "No Sceret",
-//   cookie: { secure: false },
-//   resave: false,
-//   saveUninitialized: false
-// };
-// if (app.get("env") === "production") {
-//   app.set("trust proxy", 1);
-//   sess.cookie.secure = true;
-// }
+const sess = {
+  secret: "Agent-Man",
+  cookie: { secure: false },
+  resave: false,
+  saveUninitialized: false
+};
+if (app.get("env") === "production") {
+  app.set("trust proxy", 1);
+  sess.cookie.secure = true;
+}
 
-// app.use(session(sess));
+app.use(session(sess));
 app.use((req: Request, resp: Response, next) => {
   console.log(`path request: ${req.path} ; Method: ${req.method}`);
   next();
@@ -50,6 +51,7 @@ app.use((req: Request, resp: Response, next) => {
 // use the body parser to convert request json
 app.use(bodyParser.json());
 
+app.use(expressValidator());
 // allows cors headers
 app.use((req, resp, next) => {
   resp.header("Access-Control-Allow-Origin", "http://localhost:3001");
@@ -59,6 +61,7 @@ app.use((req, resp, next) => {
     "Origin, X-Requested-With, Content-Type, Accept"
   );
   resp.header("Access-Control-Allow-Credentials", "true");
+  console.log(req.session);
   next();
 });
 //sets path for static content such as css and
