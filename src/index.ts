@@ -2,28 +2,23 @@ import express from "express";
 import * as path from "path";
 import * as bodyParser from "body-parser";
 import session from "express-session";
+import { reimbRouter } from "./routers/reimb-router";
 import { Request, Response, Router } from "express";
 import { userRouter } from "./routers/user-router";
 import { connectionPool } from "./util/connection-util";
 import { findByName, findUserByID } from "./dao/user-dao";
 import { addUser, findByUsernameAndPassword } from "./dao/user-dao";
 import { User } from "./models/user";
-import { findReimbByUser } from "./dao/reimb-dao";
-let user = new User(
-  2,
-  "aaa",
-  "pass",
-  "Aaron",
-  "Adario",
-  "aaadario@gmail.com",
-  1
-);
+import { SqlReimb } from "./dto/sql-reimb";
+import {
+  addReimb,
+  findAllReimb,
+  findReimbsByUserID,
+  findReimbByID,
+  changeReimb
+} from "./dao/reimb-dao";
+import expressValidator from "express-validator";
 
-// let user1 = findByUsernameAndPassword("zdscott", "pass");
-// console.log(user.id);
-// setTimeout(() => {
-//   console.log(user1);
-// }, 500);
 const app = express();
 
 const port = process.env.PORT || 3000;
@@ -38,7 +33,7 @@ const server = app.listen(port, () => {
 });
 
 const sess = {
-  secret: "No Sceret",
+  secret: "Agent-Man",
   cookie: { secure: false },
   resave: false,
   saveUninitialized: false
@@ -56,17 +51,21 @@ app.use((req: Request, resp: Response, next) => {
 // use the body parser to convert request json
 app.use(bodyParser.json());
 
+app.use(expressValidator());
 // allows cors headers
 app.use((req, resp, next) => {
-  resp.header("Access-Control-Allow-Origin", "http://localhost:9001");
+  resp.header("Access-Control-Allow-Origin", "http://localhost:3001");
+  resp.header("Access-Control-Allow-Methods", "GET,POST,PATCH,OPTION");
   resp.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
   resp.header("Access-Control-Allow-Credentials", "true");
+  console.log(req.session);
   next();
 });
 //sets path for static content such as css and
 app.use("/user", userRouter);
+app.use("/reimb", reimbRouter);
 
 app.use(express.static(path.join(__dirname, "public")));
